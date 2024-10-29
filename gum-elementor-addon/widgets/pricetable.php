@@ -522,20 +522,50 @@ class Month_Anual_Pricetable_Regular_Widget extends Widget_Base {
       ]
     );
 
+
     $this->add_control(
       'icon_align',
       [
         'label' => esc_html__( 'Icon Position', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SELECT,
-        'default' => 'left',
+        'type' => Controls_Manager::CHOOSE,
         'options' => [
-          'left' => esc_html__( 'Before', 'gum-elementor-addon' ),
-          'right' => esc_html__( 'After', 'gum-elementor-addon' ),
+          'row' => [
+            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-left',
+          ],
+          'row-reverse' => [
+            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-right',
+          ],
         ],
         'condition' => [
           'selected_icon[value]!' => '',
           'show_button[value]' => 'yes'
         ],
+        'default' => 'row',
+        'selectors' => [
+            '{{WRAPPER}} .elementor-button-content-wrapper' => 'flex-direction: {{VALUE}};'
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'icon_indent',
+      [
+        'label' => esc_html__( 'Icon Spacing', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'max' => 100,
+          ],
+        ],
+        'default' =>['value'=>5, 'unit'=>'px'],
+        'selectors' => [
+          '{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};margin-right:0;',
+          '{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};margin-left: 0;',
+          '{{WRAPPER}} .elementor-button .elementor-button-content-wrapper' => 'gap:{{SIZE}}{{UNIT}};'
+        ],
+        'condition' => ['selected_icon[value]!' => ''],
       ]
     );
 
@@ -1730,24 +1760,6 @@ class Month_Anual_Pricetable_Regular_Widget extends Widget_Base {
       ]
     );
 
-    $this->add_control(
-      'icon_indent',
-      [
-        'label' => esc_html__( 'Icon Spacing', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SLIDER,
-        'range' => [
-          'px' => [
-            'max' => 100,
-          ],
-        ],
-        'default' =>['value'=>5, 'unit'=>'px'],
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
-        ],
-        'condition' => ['selected_icon[value]!' => ''],
-      ]
-    );
 
     $this->add_group_control(
       Group_Control_Typography::get_type(),
@@ -2036,7 +2048,6 @@ class Month_Anual_Pricetable_Regular_Widget extends Widget_Base {
                 'elementor-size-' . sanitize_html_class($size),
                 'elementor-button-align-'.sanitize_html_class($button_align)
               ] );
-
 
               $this->add_render_attribute( 'button_text', 'class', 'elementor-button-text');
               $this->add_inline_editing_attributes( 'button_text', 'none' );

@@ -271,15 +271,24 @@ class Gum_Elementor_Widget_post_slider extends Widget_Base {
       'readmore_icon_align',
       [
         'label' => esc_html__( 'Icon Position', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SELECT,
-        'default' => 'left',
+        'type' => Controls_Manager::CHOOSE,
         'options' => [
-          'left' => esc_html__( 'Before', 'gum-elementor-addon' ),
-          'right' => esc_html__( 'After', 'gum-elementor-addon' ),
+          'row' => [
+            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-left',
+          ],
+          'row-reverse' => [
+            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-right',
+          ],
         ],
         'condition' => [
           'show_readmore' => 'yes',
           'readmore_icon[value]!' => '',
+        ],
+        'default' => 'row',
+        'selectors' => [
+            '{{WRAPPER}} .elementor-button-content-wrapper' => 'flex-direction: {{VALUE}};'
         ],
       ]
     );
@@ -1596,6 +1605,7 @@ class Gum_Elementor_Widget_post_slider extends Widget_Base {
       ]
     );
 
+
     $this->add_control(
       'readmore_icon_indent',
       [
@@ -1608,8 +1618,9 @@ class Gum_Elementor_Widget_post_slider extends Widget_Base {
         ],
         'default' =>['value'=>5, 'unit'=>'px'],
         'selectors' => [
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};',
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};margin-right:0;',
+          '{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};margin-left: 0;',
+          '{{WRAPPER}} .elementor-button .elementor-button-content-wrapper' => 'gap:{{SIZE}}{{UNIT}};'
         ],
         'condition' => ['readmore_icon[value]!' => ''],
       ]
