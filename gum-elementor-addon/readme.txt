@@ -5,7 +5,7 @@ Tags: elementor, blog, slide, pricing, menu
 Requires at least: 6.0
 Tested up to: 6.6.2
 Requires PHP: 7.0
-Stable tag: 1.3.9
+Stable tag: 1.3.10
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,13 @@ Not yet
 5. Three colors heading
 
 == Changelog ==
+
+= 1.3.10 =
+* Bug fix: counter text shadow backward compatibility
+* Improvement: Adding post view counter ( post grid widget )
+* Improvement: Adding post reading time ( post grid widget )
+* Improvement: Adding post meta position ( blog grid widget )
+* Improvement: Adding post meta avatar ( blog grid widget )
 
 = 1.3.9 =
 * Bug fix: button with icon styles

@@ -424,11 +424,14 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'type' => Controls_Manager::SELECT,
         'options' => [
           '' => esc_html__( 'None', 'gum-elementor-addon' ),
+          'before' => esc_html__( 'Before Image', 'gum-elementor-addon' ),
+          'after' => esc_html__( 'After Image', 'gum-elementor-addon' ),
           'top' => esc_html__( 'Before Title', 'gum-elementor-addon' ),
           'mid' => esc_html__( 'After Title', 'gum-elementor-addon' ),
+          'content' => esc_html__( 'Content Box', 'gum-elementor-addon' ),
           'bottom' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
         ],
-        'default' => 'mid'
+        'default' => 'mid',
       ]
     );
 
@@ -453,14 +456,61 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'type' => Controls_Manager::SELECT,
         'options' => [
           '' => esc_html__( 'None', 'gum-elementor-addon' ),
+          'before' => esc_html__( 'Before Image', 'gum-elementor-addon' ),
+          'after' => esc_html__( 'After Image', 'gum-elementor-addon' ),
           'top' => esc_html__( 'Before Title', 'gum-elementor-addon' ),
           'mid' => esc_html__( 'After Title', 'gum-elementor-addon' ),
+          'content' => esc_html__( 'Content Box', 'gum-elementor-addon' ),
           'bottom' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
         ],
-        'default' => 'mid'
+        'default' => 'mid',
+        'separator' => 'before'
       ]
     );
 
+
+    $this->add_control(
+      'author_meta_avatar',
+      [
+        'label' => esc_html__( 'Show Avatar', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SWITCHER,
+        'label_off' => esc_html__( 'No', 'gum-elementor-addon' ),
+        'label_on' => esc_html__( 'Yes', 'gum-elementor-addon' ),
+        'default' => 'no',
+        'condition' => [
+          'author_meta!' => ''
+        ],
+      ]
+    );
+
+
+    $this->add_control(
+      'author_avatar_position',
+      [
+        'label' => esc_html__( 'Position', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::CHOOSE,
+        'options' => [
+          'left' => [
+            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-left',
+          ],
+          'top' => [
+            'title' => esc_html__( 'Top', 'gum-elementor-addon' ),
+            'icon' => 'eicon-v-align-top',
+          ],
+          'right' => [
+            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-right',
+          ],
+        ],
+        'default' => 'left',
+        'prefix_class' => 'author_meta_avatar_position-',
+        'condition' => [
+          'author_meta!' => '',
+          'author_meta_avatar' => 'yes',
+        ],
+      ]
+    );
 
     $this->add_control(
       'author_meta_icon',
@@ -482,11 +532,15 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'type' => Controls_Manager::SELECT,
         'options' => [
           '' => esc_html__( 'None', 'gum-elementor-addon' ),
+          'before' => esc_html__( 'Before Image', 'gum-elementor-addon' ),
+          'after' => esc_html__( 'After Image', 'gum-elementor-addon' ),
           'top' => esc_html__( 'Before Title', 'gum-elementor-addon' ),
           'mid' => esc_html__( 'After Title', 'gum-elementor-addon' ),
+          'content' => esc_html__( 'Content Box', 'gum-elementor-addon' ),
           'bottom' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
         ],
-        'default' => 'top'
+        'default' => 'top',
+        'separator' => 'before'
       ]
     );
 
@@ -502,6 +556,95 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         ],
       ]
     );
+
+
+    $this->add_control(
+      'post_view',
+      [
+        'label' => esc_html__( 'Post View', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SELECT,
+        'options' => [
+          '' => esc_html__( 'None', 'gum-elementor-addon' ),
+          'before' => esc_html__( 'Before Image', 'gum-elementor-addon' ),
+          'after' => esc_html__( 'After Image', 'gum-elementor-addon' ),
+          'top' => esc_html__( 'Before Title', 'gum-elementor-addon' ),
+          'mid' => esc_html__( 'After Title', 'gum-elementor-addon' ),
+          'content' => esc_html__( 'Content Box', 'gum-elementor-addon' ),
+          'bottom' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
+        ],
+        'default' => '',
+        'separator' => 'before'
+      ]
+    );
+
+
+    $this->add_control(
+      'post_view_icon',
+      [
+        'label' => esc_html__( 'Icon', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::ICONS,
+        'fa4compatibility' => 'icon',
+        'condition' => [
+          'post_view!' => ''
+        ],
+      ]
+    );
+
+
+
+    $this->add_control(
+      'reading_time',
+      [
+        'label' => esc_html__( 'Reading Timer', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SELECT,
+        'options' => [
+          '' => esc_html__( 'None', 'gum-elementor-addon' ),
+          'before' => esc_html__( 'Before Image', 'gum-elementor-addon' ),
+          'after' => esc_html__( 'After Image', 'gum-elementor-addon' ),
+          'top' => esc_html__( 'Before Title', 'gum-elementor-addon' ),
+          'mid' => esc_html__( 'After Title', 'gum-elementor-addon' ),
+          'content' => esc_html__( 'Content Box', 'gum-elementor-addon' ),
+          'bottom' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
+        ],
+        'default' => '',
+        'separator' => 'before'
+      ]
+    );
+
+
+    $this->add_control(
+      'reading_speed',
+      [
+        'label' => esc_html__( 'Speed', 'gum-elementor-addon' ),
+        'description' => esc_html__( 'Reading speed in word per minute', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::TEXT,
+        'default' => '200',
+        'ai' => [
+          'active' => false,
+        ],
+        'dynamic' => [
+          'active' => false,
+        ],
+        'condition' => [
+          'reading_time!' => ''
+        ],
+      ]
+    );
+
+
+
+    $this->add_control(
+      'reading_time_icon',
+      [
+        'label' => esc_html__( 'Icon', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::ICONS,
+        'fa4compatibility' => 'icon',
+        'condition' => [
+          'reading_time!' => ''
+        ],
+      ]
+    );
+
 
     $this->add_control(
       'meta_divider',
@@ -1330,7 +1473,7 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
       Group_Control_Box_Shadow::get_type(),
       [
         'name' => 'post_grid_hover_shadow',
-        'selector' => '{{WRAPPER}}:hover .grid-posts .grid-post article',
+        'selector' => '{{WRAPPER}} .grid-posts .grid-post article:hover',
       ]
     );
 
@@ -2034,6 +2177,18 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
       ]
     );
 
+    $this->add_responsive_control(
+        'post_title_padding',
+        [
+            'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'selectors' => [
+                '{{WRAPPER}} article .post-title' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
 
     $this->end_controls_section();
 
@@ -2105,6 +2260,18 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
       ]
     );
 
+    $this->add_responsive_control(
+        'post_content_padding',
+        [
+            'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'selectors' => [
+                '{{WRAPPER}} article .content-excerpt' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
     $this->end_controls_section();
 
     $this->start_controls_section(
@@ -2161,6 +2328,36 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'condition' => [
           'show_meta!' => '',
           'category_meta!' => ''
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'post_view_meta_style',
+      [
+        'label' => esc_html__( 'Post View Styles', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SWITCHER,
+        'label_off' => esc_html__( 'No', 'gum-elementor-addon' ),
+        'label_on' => esc_html__( 'Yes', 'gum-elementor-addon' ),
+        'default' => '',
+        'condition' => [
+          'show_meta!' => '',
+          'reading_time!' => ''
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_meta_style',
+      [
+        'label' => esc_html__( 'Reading Timer Styles', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SWITCHER,
+        'label_off' => esc_html__( 'No', 'gum-elementor-addon' ),
+        'label_on' => esc_html__( 'Yes', 'gum-elementor-addon' ),
+        'default' => '',
+        'condition' => [
+          'show_meta!' => '',
+          'reading_time!' => ''
         ],
       ]
     );
@@ -2653,15 +2850,14 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
             'label' => esc_html__( 'Margin', 'gum-elementor-addon' ),
             'type' => Controls_Manager::DIMENSIONS,
             'size_units' => [ 'px', '%', 'em' ],
-            'allowed_dimensions' => 'horizontal',
             'placeholder' => [
-              'top' => 0,
+              'top' => '',
               'right' => '',
-              'bottom' => 0,
+              'bottom' => '',
               'left' => '',
             ],
             'selectors' => [
-                '{{WRAPPER}} .list-meta.date_meta' => 'margin-left: {{LEFT}}{{UNIT}};margin-right:{{RIGHT}}{{UNIT}};',
+                '{{WRAPPER}} .list-meta.date_meta' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
             ],
         ]
     );
@@ -2698,7 +2894,7 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
       ]
     );
 
-
+    $this->get_position_control( $this,'datemeta','.date_meta','before');
 
     $this->end_controls_section();
 
@@ -2714,6 +2910,148 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         ],
       ]
     );  
+
+    $this->add_control(
+      'author_avatar_styles',
+      [
+        'label' => esc_html__( 'Avatar', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::HEADING,
+      ]
+    );
+
+
+  $this->add_control(
+    'author_avatar_align',
+    [
+      'label' => esc_html__( 'Align', 'gum-elementor-addon' ),
+      'type' => Controls_Manager::CHOOSE,
+      'options' => [
+        'flex-start' => [
+          'title' => esc_html__( 'Top', 'gum-elementor-addon' ),
+          'icon' => 'eicon-v-align-top',
+        ],
+        'center' => [
+          'title' => esc_html__( 'Center', 'gum-elementor-addon' ),
+          'icon' => 'eicon-v-align-middle',
+        ],
+        'flex-end' => [
+          'title' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
+          'icon' => 'eicon-v-align-bottom',
+        ],
+      ],
+      'default' => 'center',
+        'condition' => [
+          'author_meta!' => '',
+          'author_meta_avatar' => 'yes',
+          'author_avatar_position!'=> 'top'
+        ],
+        'selectors' => [
+          '{{WRAPPER}}:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta' => 'align-items: {{VALUE}};',
+        ],
+    ]
+  );
+
+
+    $this->add_responsive_control(
+      'author_avatar_width',
+      [
+        'label' => esc_html__( 'Width', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+         'px' => [
+            'max' => 1000,
+          ],
+        ],  
+        'default'=>['size'=>'','unit'=>'px'],
+        'size_units' => [ 'px','%' ],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.author_meta .author-avatar img' => 'width: {{SIZE}}{{UNIT}};',
+        ],
+       ]
+    );
+
+
+    $this->add_responsive_control(
+      'author_avatar_margin',
+      [
+        'label' => esc_html__( 'Spacing', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+         'px' => [
+            'max' => 1000,
+          ],
+        ],  
+        'default'=>['size'=>'','unit'=>'px'],
+        'size_units' => [ 'px','%' ],
+        'selectors' => [
+          '{{WRAPPER}}.author_meta_avatar_position-top .list-meta.author_meta .author-avatar' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}}.author_meta_avatar_position-left .list-meta.author_meta .author-avatar' => 'margin-right: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}}.author_meta_avatar_position-right .list-meta.author_meta .author-avatar' => 'margin-left: {{SIZE}}{{UNIT}};',
+        ],
+       ]
+    );
+
+    $this->add_group_control(
+     Group_Control_Border::get_type(),
+      [
+        'name' => 'author_avatar_border',
+        'selector' => '{{WRAPPER}} .list-meta.author_meta .author-avatar img',
+        'condition' => [
+          'author_meta!' => '',
+          'author_meta_avatar' => 'yes',
+        ],
+
+      ]
+    );
+
+    $this->add_control(
+      'author_avatar_radius',
+      [
+        'label' => esc_html__( 'Border Radius', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%' ],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.author_meta .author-avatar img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+        'condition' => [
+          'author_meta!' => '',
+          'author_meta_avatar' => 'yes',
+        ],
+        'separator' => 'after',
+
+      ]
+    );
+
+/*
+    $this->add_control(
+      'author_avatar_position',
+      [
+        'label' => esc_html__( 'Position', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::CHOOSE,
+        'options' => [
+          'left' => [
+            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-left',
+          ],
+          'top' => [
+            'title' => esc_html__( 'Top', 'gum-elementor-addon' ),
+            'icon' => 'eicon-v-align-top',
+          ],
+          'right' => [
+            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
+            'icon' => 'eicon-h-align-right',
+          ],
+        ],
+        'default' => 'left',
+        'prefix_class' => 'author_meta_avatar_position-',
+        'condition' => [
+          'author_meta!' => '',
+          'author_meta_avatar' => 'yes',
+        ],
+      ]
+    );
+*/
+
 
     $this->add_control(
       'author_icon_size',
@@ -2877,15 +3215,14 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
             'label' => esc_html__( 'Margin', 'gum-elementor-addon' ),
             'type' => Controls_Manager::DIMENSIONS,
             'size_units' => [ 'px', '%', 'em' ],
-            'allowed_dimensions' => 'horizontal',
             'placeholder' => [
-              'top' => 0,
+              'top' => '',
               'right' => '',
-              'bottom' => 0,
+              'bottom' => '',
               'left' => '',
             ],
             'selectors' => [
-                '{{WRAPPER}} .list-meta.author_meta' => 'margin-left: {{LEFT}}{{UNIT}};margin-right:{{RIGHT}}{{UNIT}};',
+                '{{WRAPPER}} .list-meta.author_meta' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
             ],
         ]
     );
@@ -2921,6 +3258,8 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'selector' => '{{WRAPPER}} .list-meta.author_meta',
       ]
     );
+
+    $this->get_position_control( $this,'authormeta','.author_meta','before');
 
     $this->end_controls_section();
 
@@ -3099,15 +3438,14 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
             'label' => esc_html__( 'Margin', 'gum-elementor-addon' ),
             'type' => Controls_Manager::DIMENSIONS,
             'size_units' => [ 'px', '%', 'em' ],
-            'allowed_dimensions' => 'horizontal',
             'placeholder' => [
-              'top' => 0,
+              'top' => '',
               'right' => '',
-              'bottom' => 0,
+              'bottom' => '',
               'left' => '',
             ],
             'selectors' => [
-                '{{WRAPPER}} .list-meta.category_meta' => 'margin-left: {{LEFT}}{{UNIT}};margin-right:{{RIGHT}}{{UNIT}};',
+                '{{WRAPPER}} .list-meta.category_meta' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
             ],
         ]
     );
@@ -3143,6 +3481,453 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
         'selector' => '{{WRAPPER}} .list-meta.category_meta',
       ]
     );
+
+    $this->get_position_control( $this,'category','.category_meta','before');
+
+    $this->end_controls_section();
+    $this->start_controls_section(
+      'post_view_meta_styles',
+      [
+        'label' => esc_html__( 'Post View Styles', 'gum-elementor-addon' ),
+        'tab'   => Controls_Manager::TAB_STYLE,
+        'condition' => [
+          'post_view_meta_style' => 'yes',
+          'show_meta!' => '',
+          'post_view!' => ''
+        ],
+      ]
+    );  
+
+    $this->add_control(
+      'post_view_icon_size',
+      [
+        'label' => esc_html__( 'Icon Size', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'max' => 100,
+          ],
+        ],
+        'default' =>['value'=>'', 'unit'=>'px'],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view i' => 'font-size: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}} .list-meta.post_view svg' => 'height: {{SIZE}}%;width: {{SIZE}}%;'
+        ],
+        'condition' => ['post_view_icon[value]!' => ''],
+      ]
+    );
+
+    $this->add_control(
+      'post_view_icon_indent',
+      [
+        'label' => esc_html__( 'Spacing', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'max' => 100,
+          ],
+        ],
+        'default' =>['value'=>'10', 'unit'=>'px'],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view .meta-text' => 'padding-left: {{SIZE}}{{UNIT}};',
+        ],
+        'condition' => ['post_view_icon[value]!' => ''],
+      ]
+    );
+
+
+    $this->add_group_control(
+      Group_Control_Typography::get_type(),
+      [
+        'name' => 'typography_post_view',
+        'selector' => '{{WRAPPER}} .list-meta.post_view a,{{WRAPPER}} .list-meta.post_view .meta-text',
+      ]
+    );
+
+
+   $this->start_controls_tabs( 'post_viewmeta_tabs', [] );
+   $this->start_controls_tab(
+       'post_view_normal',
+       [
+           'label' =>esc_html__( 'Normal', 'gum-elementor-addon' ),
+       ]
+   );
+
+    $this->add_control(
+      'post_view_color',
+      [
+        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view a,{{WRAPPER}} .list-meta.post_view .meta-text' => 'color: {{VALUE}};',
+        ]
+      ]
+    );
+
+    $this->add_control(
+      'post_view_icon_color',
+      [
+        'label' => esc_html__( 'Icon Color', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view i, {{WRAPPER}} .list-meta.post_view path' => 'fill: {{VALUE}}; color: {{VALUE}};',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'post_view_bgcolor',
+      [
+        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view' => 'background-color: {{VALUE}};',
+        ]
+      ]
+    );
+
+
+   $this->end_controls_tab();
+   $this->start_controls_tab(
+       'post_view_hover',
+       [
+           'label' =>esc_html__( 'Hover', 'gum-elementor-addon' ),
+       ]
+   );
+
+
+    $this->add_control(
+      'post_view_hcolor',
+      [
+        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view:hover a,{{WRAPPER}} .list-meta.post_view:hover .meta-text' => 'color: {{VALUE}};',
+        ]
+      ]
+    );
+
+    $this->add_control(
+      'post_view_icon_hcolor',
+      [
+        'label' => esc_html__( 'Icon Color', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view:hover i, {{WRAPPER}} .list-meta.post_view:hover path' => 'fill: {{VALUE}}; color: {{VALUE}};',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'post_view_bghover',
+      [
+        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view:hover' => 'background-color: {{VALUE}};',
+        ]
+      ]
+    );
+
+
+    $this->add_control(
+      'post_view_bdhover',
+      [
+        'label' => esc_html__( 'Border Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view:hover' => 'border-color: {{VALUE}};',
+        ],
+        'condition' => [
+          'post_view_border_border!' => ''
+        ],
+      ]
+    );
+
+   $this->end_controls_tab();
+   $this->end_controls_tabs();
+
+    $this->add_responsive_control(
+        'post_view_margin',
+        [
+            'label' => esc_html__( 'Margin', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'placeholder' => [
+              'top' => '',
+              'right' => '',
+              'bottom' => '',
+              'left' => '',
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .list-meta.post_view' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
+    $this->add_responsive_control(
+        'post_view_padding',
+        [
+            'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'selectors' => [
+                '{{WRAPPER}} .list-meta.post_view' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
+    $this->add_control(
+      'post_view_radius',
+      [
+        'label' => esc_html__( 'Border Radius', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%' ],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.post_view' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+      ]
+    );
+
+    $this->add_group_control(
+     Group_Control_Border::get_type(),
+      [
+        'name' => 'post_view_border',
+        'selector' => '{{WRAPPER}} .list-meta.post_view',
+      ]
+    );
+
+    $this->get_position_control( $this,'post_view','.post_view','before');
+
+    $this->end_controls_section();
+
+    $this->start_controls_section(
+      'reading_time_meta_styles',
+      [
+        'label' => esc_html__( 'Reading Timer Styles', 'gum-elementor-addon' ),
+        'tab'   => Controls_Manager::TAB_STYLE,
+        'condition' => [
+          'reading_time_meta_style' => 'yes',
+          'show_meta!' => '',
+          'reading_time!' => ''
+        ],
+      ]
+    );  
+
+    $this->add_control(
+      'reading_time_icon_size',
+      [
+        'label' => esc_html__( 'Icon Size', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'max' => 100,
+          ],
+        ],
+        'default' =>['value'=>'', 'unit'=>'px'],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time i' => 'font-size: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}} .list-meta.reading_time svg' => 'height: {{SIZE}}%;width: {{SIZE}}%;'
+        ],
+        'condition' => ['reading_time_icon[value]!' => ''],
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_icon_indent',
+      [
+        'label' => esc_html__( 'Spacing', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'max' => 100,
+          ],
+        ],
+        'default' =>['value'=>'10', 'unit'=>'px'],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time .meta-text' => 'padding-left: {{SIZE}}{{UNIT}};',
+        ],
+        'condition' => ['reading_time_icon[value]!' => ''],
+      ]
+    );
+
+
+    $this->add_group_control(
+      Group_Control_Typography::get_type(),
+      [
+        'name' => 'typography_reading_time',
+        'selector' => '{{WRAPPER}} .list-meta.reading_time a,{{WRAPPER}} .list-meta.reading_time .meta-text',
+      ]
+    );
+
+
+   $this->start_controls_tabs( 'reading_timemeta_tabs', [] );
+   $this->start_controls_tab(
+       'reading_time_normal',
+       [
+           'label' =>esc_html__( 'Normal', 'gum-elementor-addon' ),
+       ]
+   );
+
+    $this->add_control(
+      'reading_time_color',
+      [
+        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time a,{{WRAPPER}} .list-meta.reading_time .meta-text' => 'color: {{VALUE}};',
+        ]
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_icon_color',
+      [
+        'label' => esc_html__( 'Icon Color', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time i, {{WRAPPER}} .list-meta.reading_time path' => 'fill: {{VALUE}}; color: {{VALUE}};',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_bgcolor',
+      [
+        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time' => 'background-color: {{VALUE}};',
+        ]
+      ]
+    );
+
+
+   $this->end_controls_tab();
+   $this->start_controls_tab(
+       'reading_time_hover',
+       [
+           'label' =>esc_html__( 'Hover', 'gum-elementor-addon' ),
+       ]
+   );
+
+
+    $this->add_control(
+      'reading_time_hcolor',
+      [
+        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time:hover a,{{WRAPPER}} .list-meta.reading_time:hover .meta-text' => 'color: {{VALUE}};',
+        ]
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_icon_hcolor',
+      [
+        'label' => esc_html__( 'Icon Color', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time:hover i, {{WRAPPER}} .list-meta.reading_time:hover path' => 'fill: {{VALUE}}; color: {{VALUE}};',
+        ],
+      ]
+    );
+
+    $this->add_control(
+      'reading_time_bghover',
+      [
+        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time:hover' => 'background-color: {{VALUE}};',
+        ]
+      ]
+    );
+
+
+    $this->add_control(
+      'reading_time_bdhover',
+      [
+        'label' => esc_html__( 'Border Color', 'gum-elementor-addon' ),
+        'type' =>  Controls_Manager::COLOR,
+        'default' => '',
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time:hover' => 'border-color: {{VALUE}};',
+        ],
+        'condition' => [
+          'reading_time_border_border!' => ''
+        ],
+      ]
+    );
+
+   $this->end_controls_tab();
+   $this->end_controls_tabs();
+
+    $this->add_responsive_control(
+        'reading_time_margin',
+        [
+            'label' => esc_html__( 'Margin', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'placeholder' => [
+              'top' => '',
+              'right' => '',
+              'bottom' => '',
+              'left' => '',
+            ],
+            'selectors' => [
+                '{{WRAPPER}} .list-meta.reading_time' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
+    $this->add_responsive_control(
+        'reading_time_padding',
+        [
+            'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
+            'type' => Controls_Manager::DIMENSIONS,
+            'size_units' => [ 'px', '%', 'em' ],
+            'selectors' => [
+                '{{WRAPPER}} .list-meta.reading_time' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+            ],
+        ]
+    );
+
+    $this->add_control(
+      'reading_time_radius',
+      [
+        'label' => esc_html__( 'Border Radius', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::DIMENSIONS,
+        'size_units' => [ 'px', '%' ],
+        'selectors' => [
+          '{{WRAPPER}} .list-meta.reading_time' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+        ],
+      ]
+    );
+
+    $this->add_group_control(
+     Group_Control_Border::get_type(),
+      [
+        'name' => 'reading_time_border',
+        'selector' => '{{WRAPPER}} .list-meta.reading_time',
+      ]
+    );
+
+    $this->get_position_control( $this,'reading_time','.reading_time','before');
 
     $this->end_controls_section();
 
@@ -3321,6 +4106,10 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
 
     $this->end_controls_tab();
     $this->end_controls_tabs();
+
+
+    $this->get_position_control( $this,'readmore','.elementor-button','before');
+
 
     $this->add_control(
       'readmore_icon_heading',
@@ -3783,6 +4572,239 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
     ];
   }
 
+  private static function get_position_control($element, $id, $selector='', $separator=''){
+
+
+    $element->add_control(
+      $id.'_position',
+      [
+        'label' => esc_html__( 'Position', 'elementor' ),
+        'type' => Controls_Manager::SELECT,
+        'default' => '',
+        'options' => [
+          '' => esc_html__( 'Default', 'elementor' ),
+          'absolute' => esc_html__( 'Absolute', 'elementor' ),
+          'fixed' => esc_html__( 'Fixed', 'elementor' ),
+        ],
+        'selectors' => [
+          '{{WRAPPER}} '.$selector => 'position: {{VALUE}};',
+        ],
+        'separator' => $separator
+      ]
+    );
+
+    $start = is_rtl() ? esc_html__( 'Right', 'elementor' ) : esc_html__( 'Left', 'elementor' );
+    $end = ! is_rtl() ? esc_html__( 'Right', 'elementor' ) : esc_html__( 'Left', 'elementor' );
+
+    $element->add_control(
+      $id.'_offset_orientation_h',
+      [
+        'label' => esc_html__( 'Horizontal Orientation', 'elementor' ),
+        'type' => Controls_Manager::CHOOSE,
+        'toggle' => false,
+        'default' => 'start',
+        'options' => [
+          'start' => [
+            'title' => $start,
+            'icon' => 'eicon-h-align-left',
+          ],
+          'end' => [
+            'title' => $end,
+            'icon' => 'eicon-h-align-right',
+          ],
+        ],
+        'classes' => 'elementor-control-start-end',
+        'render_type' => 'ui',
+        'condition' => [
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+    $element->add_responsive_control(
+      $id.'_offset_x',
+      [
+        'label' => esc_html__( 'Offset', 'elementor' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'min' => -1000,
+            'max' => 1000,
+            'step' => 1,
+          ],
+          '%' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vw' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vh' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+        ],
+        'default' => [
+          'size' => '0',
+        ],
+        'size_units' => [ 'px', '%', 'vw', 'vh' ],
+        'selectors' => [
+          'body:not(.rtl) {{WRAPPER}} '.$selector => 'left: {{SIZE}}{{UNIT}}',
+          'body.rtl {{WRAPPER}} '.$selector => 'right: {{SIZE}}{{UNIT}}',
+        ],
+        'condition' => [
+          $id.'_offset_orientation_h!' => 'end',
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+    $element->add_responsive_control(
+      $id.'_offset_x_end',
+      [
+        'label' => esc_html__( 'Offset', 'elementor' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'min' => -1000,
+            'max' => 1000,
+            'step' => 0.1,
+          ],
+          '%' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vw' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vh' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+        ],
+        'default' => [
+          'size' => '0',
+        ],
+        'size_units' => [ 'px', '%', 'vw', 'vh' ],
+        'selectors' => [
+          'body:not(.rtl) {{WRAPPER}} '.$selector => 'right: {{SIZE}}{{UNIT}}',
+          'body.rtl {{WRAPPER}} '.$selector => 'left: {{SIZE}}{{UNIT}}',
+        ],
+        'condition' => [
+          $id.'_offset_orientation_h' => 'end',
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+    $element->add_control(
+      $id.'_offset_orientation_v',
+      [
+        'label' => esc_html__( 'Vertical Orientation', 'elementor' ),
+        'type' => Controls_Manager::CHOOSE,
+        'toggle' => false,
+        'default' => 'start',
+        'options' => [
+          'start' => [
+            'title' => esc_html__( 'Top', 'elementor' ),
+            'icon' => 'eicon-v-align-top',
+          ],
+          'end' => [
+            'title' => esc_html__( 'Bottom', 'elementor' ),
+            'icon' => 'eicon-v-align-bottom',
+          ],
+        ],
+        'render_type' => 'ui',
+        'condition' => [
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+    $element->add_responsive_control(
+      $id.'_offset_y',
+      [
+        'label' => esc_html__( 'Offset', 'elementor' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'min' => -1000,
+            'max' => 1000,
+            'step' => 1,
+          ],
+          '%' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vh' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vw' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+        ],
+        'size_units' => [ 'px', '%', 'vh', 'vw' ],
+        'default' => [
+          'size' => '0',
+        ],
+        'selectors' => [
+          '{{WRAPPER}} '.$selector => 'top: {{SIZE}}{{UNIT}}',
+        ],
+        'condition' => [
+          $id.'_offset_orientation_v!' => 'end',
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+    $element->add_responsive_control(
+      $id.'_offset_y_end',
+      [
+        'label' => esc_html__( 'Offset', 'elementor' ),
+        'type' => Controls_Manager::SLIDER,
+        'range' => [
+          'px' => [
+            'min' => -1000,
+            'max' => 1000,
+            'step' => 1,
+          ],
+          '%' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vh' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+          'vw' => [
+            'min' => -200,
+            'max' => 200,
+          ],
+        ],
+        'size_units' => [ 'px', '%', 'vh', 'vw' ],
+        'default' => [
+          'size' => '0',
+        ],
+        'selectors' => [
+          '{{WRAPPER}} '.$selector => 'bottom: {{SIZE}}{{UNIT}}',
+        ],
+        'condition' => [
+          $id.'_offset_orientation_v' => 'end',
+          $id.'_position!' => '',
+        ],
+      ]
+    );
+
+
+
+
+
+  }
+
   protected function render() {
 
     $settings = $this->get_settings_for_display();
@@ -4006,6 +5028,8 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
     $thumb_id = get_post_thumbnail_id( $post_id );
     $image = ['id' => $thumb_id ];
     $settings['thumbnail'] = $image;
+    $settings['post_id'] = $post_id;
+    $settings['post_title'] = $post_title;
 
     $divider = isset( $settings['divider'] ) ? $settings['divider'] : '';
     $settings['post_url'] = $post_url;
@@ -4032,9 +5056,11 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
 <article id="post-<?php esc_attr_e($post_id); ?>" <?php post_class(); ?>>
     <?php if($image_url!=''):?>
   <div class="post-top">
+<?php print $this->get_post_meta( $settings , 'before', $divider); ?>
     <?php if($title_position == 'before'){ print $top_meta.$post_title.$mid_meta; } ?>
     <div class="blog-image" style="background-image: url('<?php esc_attr_e($image_url); ?>');"><?php print $image_html;?></div>
     <?php if($title_position == 'after'){ print $top_meta.$post_title.$mid_meta; } ?>
+<?php print $this->get_post_meta( $settings , 'after', $divider); ?>
   </div>
     <?php endif;?>
     <div class="post-content">
@@ -4044,9 +5070,10 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
 
       ?>
       <?php if(!$hide_content){ printf( '<div class="content-excerpt clearfix">%s</div>', $post_content); } ?>
-      <?php print $this->get_post_meta( $settings , 'bottom', $divider); ?>
+      <?php print $this->get_post_meta( $settings , 'content', $divider); ?>
       <?php $this->get_readmore_button( 'post-'.$post_id,  $settings ); ?>
   </div>
+  <?php print $this->get_post_meta( $settings , 'bottom', $divider); ?>
 </article>
 <?php 
 
@@ -4057,9 +5084,9 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
 
     if(!isset($settings['show_meta']) || $settings['show_meta']!='yes' || empty($position) ) return '';
 
-    $post_id = get_the_ID();
+    $post_id = $settings['post_id'];
 
-    $metas = array( 'date_meta','author_meta','category_meta' );
+    $metas = array( 'date_meta','author_meta','category_meta','post_view','reading_time' );
     $rows_html  = array();
 
     foreach ($metas as $meta) {
@@ -4071,6 +5098,23 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
 
 
         switch ($meta) {
+          case 'post_view':
+
+            $count = Gum_Elementor_Helper::get_post_view_count($post_id);
+            $test = _n(  esc_html__('%s view','gum-elementor-addon'), esc_html__('%s views','gum-elementor-addon'), $count);
+            $meta_type =  $count ? sprintf($test, $count ) : '';
+
+            break;
+          case 'reading_time':
+
+            $reading_speed = isset($settings['reading_speed']) && $settings['reading_speed'] > 1 ? absint($settings['reading_speed']): 200;
+
+            $count = Gum_Elementor_Helper::get_post_reading_time($post_id,$reading_speed);
+
+            $test = _n(  esc_html__('%s minute','gum-elementor-addon'), esc_html__('%s minutes','gum-elementor-addon'), $count);
+            $meta_type =  $count ? sprintf($test, $count ) : '';
+
+            break;
           case 'date_meta':
             $meta_type = get_the_date();
             break;
@@ -4079,6 +5123,10 @@ class Gum_Elementor_Widget_blog_grid extends Widget_Base {
             $author_id = get_post_field( 'post_author', $post_id );
             $meta_type = get_the_author_meta('nickname', $author_id);
             $meta_url = esc_url(get_the_author_meta('url',$author_id));
+
+            if($settings['author_meta_avatar'] =='yes' && $avatar_url = get_avatar_url($author_id, 100)){
+              $meta_icon_html = '<div class="author-avatar"><img src="'.esc_url($avatar_url).'" /></div>'.$meta_icon_html;
+            }
 
             break;
           case 'category_meta':

@@ -25,6 +25,9 @@ class Gum_Elementor_Widget_Accordion{
         add_action( 'elementor/element/accordion/section_title_style/after_section_end', array( $this, 'register_section_title_style_controls') , 999 );
         add_filter( 'elementor/widget/render_content', array( $this, 'registering_render_content') , 999, 2 );
         add_filter( 'elementor/widget/print_template', array( $this, 'print_content_template') , 999, 2 );
+
+        add_action( 'elementor/element/accordion/section_title_style/after_section_end', array( $this, 'register_section_title_style_controls') , 999 );
+
   }
 
   public function register_tabtitle_icon_style_controls( Controls_Stack $element ) {
@@ -145,14 +148,14 @@ class Gum_Elementor_Widget_Accordion{
 
   public function register_toggle_style_title_controls( Controls_Stack $element ) {
 
+    $element->remove_control('title_background');
+    $element->remove_control('title_color');
+    $element->remove_control('tab_active_color');
+
 
    $element->start_injection( [
       'of' => 'section_toggle_style_title',
     ] );
-
-    $element->remove_control('title_background');
-    $element->remove_control('title_color');
-    $element->remove_control('tab_active_color');
 
     $element->start_controls_tabs( '_tabs_toggle_style_title' );
 
@@ -162,7 +165,6 @@ class Gum_Elementor_Widget_Accordion{
         'label' => esc_html__( 'Normal', 'elementor' ),
       ]
     );
-
 
     $element->add_control(
       'title_color',
@@ -178,6 +180,7 @@ class Gum_Elementor_Widget_Accordion{
         ],
       ]
     );
+
 
     $element->add_control(
       'title_background',
@@ -206,6 +209,15 @@ class Gum_Elementor_Widget_Accordion{
       ]
     );
 
+
+
+    $element->end_injection();
+
+    $element->start_injection( [
+      'of' => 'tab_active_color',
+    ] );
+
+
     $element->add_control(
       'title_active_background',
       [
@@ -231,7 +243,7 @@ class Gum_Elementor_Widget_Accordion{
     $element->add_control(
       'title_hover_color',
       [
-        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Color Hover', 'gum-elementor-addon' ),
         'type' => Controls_Manager::COLOR,
         'selectors' => [
           '{{WRAPPER}} .elementor-tab-title:hover .elementor-accordion-title' => 'color: {{VALUE}}!important;',
@@ -242,7 +254,7 @@ class Gum_Elementor_Widget_Accordion{
     $element->add_control(
       'title_hover_background',
       [
-        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Background hover', 'gum-elementor-addon' ),
         'type' => Controls_Manager::COLOR,
         'selectors' => [
           '{{WRAPPER}} .elementor-tab-title:hover' => 'background-color: {{VALUE}}!important;',

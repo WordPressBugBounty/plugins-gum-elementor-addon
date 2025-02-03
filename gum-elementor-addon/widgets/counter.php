@@ -15,17 +15,21 @@ class Gum_Elementor_Widget_CounterAddon{
 
   public function __construct( ) {
 
-        add_action( 'elementor/element/counter/section_number/after_section_end', array( $this, 'register_section_number_controls') , 999 );
-        add_action( 'elementor/element/counter/section_title/after_section_end', array( $this, 'register_section_title_controls') , 999 );
 
-        add_action( 'elementor/element/counter/section_counter/after_section_end', array( $this, 'register_section_counter_controls') , 999 );
+      add_action( 'elementor/element/counter/section_title/after_section_end', array( $this, 'register_section_title_controls') , 999 );
+      add_action( 'elementor/element/counter/section_counter/after_section_end', array( $this, 'register_section_counter_controls') , 999 );
+
+
+      if ( version_compare( ELEMENTOR_VERSION, '3.2', '<' ) ) {
+          add_action( 'elementor/element/counter/section_number/after_section_end', array( $this, 'register_section_number_controls') , 999 );
+      }
   }
 
 
   public function register_section_title_controls( Controls_Stack $element ) {
 
    $element->start_injection( [
-      'of' => 'title_color',
+      'of' => 'typography_title_typography',
     ] );
 
 
@@ -49,13 +53,15 @@ class Gum_Elementor_Widget_CounterAddon{
        ]
     );
 
-    $element->add_group_control(
-      Group_Control_Text_Stroke::get_type(),
-      [
-        'name' => 'text_stroke_title',
-        'selector' => '{{WRAPPER}} .elementor-counter-title',
-      ]
-    );
+    if ( version_compare( ELEMENTOR_VERSION, '3.2', '<' ) ) {
+      $element->add_group_control(
+        Group_Control_Text_Stroke::get_type(),
+        [
+          'name' => 'text_stroke_title',
+          'selector' => '{{WRAPPER}} .elementor-counter-title',
+        ]
+      );
+    }
 
 
     $element->end_injection();
@@ -65,7 +71,7 @@ class Gum_Elementor_Widget_CounterAddon{
   public function register_section_number_controls( Controls_Stack $element ) {
 
    $element->start_injection( [
-      'of' => 'number_color',
+      'of' => 'typography_number_typography',
     ] );
 
     $element->add_group_control(

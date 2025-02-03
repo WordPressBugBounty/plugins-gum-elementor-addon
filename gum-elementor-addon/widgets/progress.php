@@ -90,7 +90,7 @@ class Gum_Elementor_Widget_ProgressAddon{
     );
 
     $element->end_injection();
-
+    
   }
 
   public function register_section_title_controls( Controls_Stack $element ) {

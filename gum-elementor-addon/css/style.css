@@ -483,6 +483,12 @@ article .posts-meta{
 .elementor-widget-gum_post_meta .posts-meta li.meta-divider,article .posts-meta li.meta-divider{ padding: 0 0.5em; vertical-align: middle;line-height: 1;}
 .elementor-widget-gum_post_meta .posts-meta li.meta-divider span,article .posts-meta li.meta-divider span{ line-height: 1;}
 
+.elementor-widget-gum_posts_grid .posts-meta .author_meta .author-avatar{ text-align:center; }
+.elementor-widget-gum_posts_grid .posts-meta .author_meta .author-avatar img{ margin-left:auto; margin-right: auto; }
+.elementor-widget-gum_posts_grid:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta{ display: inline-flex; align-items: center; line-height:1; }
+.elementor-widget-gum_posts_grid:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta{ display: inline-flex; align-items: center;  }
+.elementor-widget-gum_posts_grid.author_meta_avatar_position-right .posts-meta .author_meta .author-avatar{ order:99;   }
+
 /* post term widget */
 
 .elementor-widget-gum_post_term .posts-term,
@@ -565,16 +571,12 @@ article .posts-meta{
   [data-elementor-device-mode=tablet] .post-grid-col-tablet-2 .grid-posts .grid-post{ width:  50%; }
   [data-elementor-device-mode=tablet] .post-grid-col-tablet-1 .grid-posts .grid-post{ width:  100%; }
 }
-.grid-posts article{ height: 100%;}
-.grid-posts article .post-top { } /* .grid-posts article  overflow disable since 1.2.18 */
+.grid-posts article{ height: 100%; position: relative;}
+.grid-posts article .post-top { position: relative; } /* .grid-posts article  overflow disable since 1.2.18 */
 .grid-posts article .blog-image{ background-size: cover; background-position: center;background-repeat: no-repeat;}
 .grid-posts article .blog-image img{ visibility: hidden; opacity: 0;}
-.grid-posts article .post-content {padding: 30px;}
+.grid-posts article .post-content {padding: 30px; position: relative;}
 .grid-posts article .post-content .post-title,.grid-posts article .post-top .post-title{ line-height: unset; font-size: unset; font-family: unset; font-weight: normal;letter-spacing: unset;word-spacing: unset;}
-
-/*
-.grid-imboxs .grid-box .blog-featureimage{ height: 300px; }
-*/
 
 .related-posts .elementor-button-wrap.button-align-full .elementor-button,
 .grid-posts article .elementor-button-wrap.button-align-full .elementor-button,

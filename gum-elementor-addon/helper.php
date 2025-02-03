@@ -223,6 +223,26 @@ final class Gum_Elementor_Helper{
       return esc_url_raw( $result );
   } 
 
+  public static function get_post_view_count($post_id){
+    if(!$post_id){ $post_id =  get_the_ID();}
+
+    return get_post_meta($post_id, '_post_views_count', true);
+
+  }
+
+
+  public static function get_post_reading_time($post_id, $read_speed=200){
+    if(!$post_id){ $post_id =  get_the_ID();}
+
+    $content = get_post_field( 'post_content', $post_id );
+    $word_count = str_word_count( strip_tags( $content ) );
+    $readingtime = ceil($word_count / $read_speed);
+
+    return $readingtime;
+
+  }
+
+
 }
 
 /* make menu dropdown like bootstrap */

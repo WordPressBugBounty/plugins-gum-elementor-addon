@@ -734,6 +734,19 @@ class Month_Anual_Pricetable_Regular_Widget extends Widget_Base {
       ]
     );
 
+    $this->add_responsive_control(
+      'price_name_size',
+      [
+        'label' => esc_html__( 'Size', 'travelu-theme-core' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px', 'em' ],
+        'selectors' => [
+          '{{WRAPPER}} .price-block-inner .price-name' => 'font-size:{{SIZE}}{{UNIT}};',
+        ],
+      ]
+    );
+
+
     $this->add_control(
       'price_name_color',
       [
