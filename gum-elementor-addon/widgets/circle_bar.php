@@ -15,7 +15,7 @@ use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
 
-class Popover_Regular_Btn_Widget extends Widget_Base {
+class Gum_Elementor_Circlebar_Widget extends Widget_Base {
 
 
   public function __construct( $data = [], $args = null ) {
@@ -64,7 +64,7 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
    * @return string Widget name.
    */
   public function get_name() {
-    return 'gum_popover';
+    return 'gum_circle_bar';
   }
 
   /**
@@ -78,7 +78,7 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
    */
   public function get_title() {
 
-    return esc_html__( 'Popover Button', 'gum-elementor-addon' );
+    return esc_html__( 'Circle Bar', 'gum-elementor-addon' );
   }
 
   /**
@@ -91,7 +91,7 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
    * @return string Widget icon.
    */
   public function get_icon() {
-    return 'eicon-image-hotspot';
+    return 'fas fa-circle-notch eicon-counter-circle';
   }
 
   public function get_keywords() {
@@ -706,42 +706,10 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
 
     extract( $settings );
 
-    $this->add_render_attribute( 'wrapper', 'class', 'popover-button-wrapper' );
-
-    $this->add_render_attribute( 'button', 'class', [
-      'elementor-button',
-      'popover-button',
-      'elementor-size-' . sanitize_html_class($size),
-      'elementor-button-align-'.sanitize_html_class($button_align)
-    ] );
-
-
-
-    $this->add_link_attributes( 'button', array('url' => '#') );
-    $this->add_render_attribute( 'button_text', 'class', 'elementor-button-text');
-    $this->add_inline_editing_attributes( 'button_text', 'none' );
-
-    $button_html = $button_icon = '';
-
-
-    if(!empty($selected_icon['value'])){
-
-
-      ob_start();
-      Icons_Manager::render_icon( $selected_icon, [ 'aria-hidden' => 'true' ] );
-      $icon = ob_get_clean();
-
-       $button_icon = '<span class="elementor-button-icon elementor-align-icon-'.esc_attr($icon_align).'">'.$icon.'</span>';
-    }
-
-    $button_html .= '<span '.$this->get_render_attribute_string( 'button_text' ).'>'.esc_html($button_text).'</span>';
-
-    $pop_title = $this->sanitize_output($pop_title);
-    $pop_text = $this->sanitize_output($pop_text);
-
+    
     ?>
-    <div <?php echo $this->get_render_attribute_string( 'wrapper' ); ?>><a <?php echo $this->get_render_attribute_string( 'button' ); ?> data-pop="<?php esc_attr_e($pop_title);?>" data-pop-text="<?php esc_attr_e($pop_text);?>" data-pop-align="<?php esc_attr_e($pop_align);?>"><span class="elementor-button-content-wrapper"><?php print $button_icon.$button_html; ?></span></a>
-    </div>
+    <div class="circle-bar easyPieChart" data-linecap="round" data-trackwidth="20" data-linewidth="530" data-bgcolor="blue" data-color="#000" data-percent="80"></div>
+
 <?php
 
   }
@@ -758,7 +726,8 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
   public function enqueue_script( ) {
 
     wp_enqueue_style( 'gum-elementor-addon',GUM_ELEMENTOR_URL."css/style.css",array());
-    wp_enqueue_script( 'gum-elementor-addon', GUM_ELEMENTOR_URL . 'js/allscripts.js', array('jquery'), '1.0', false );
+    wp_enqueue_script( 'jquery-appear', GUM_ELEMENTOR_URL . 'js/jquery.appear.min.js', array('jquery'), '1.0', false );
+    wp_enqueue_script( 'easyPieChart', GUM_ELEMENTOR_URL . 'js/chart.js', array('jquery'), '1.0', false );
   }
 
 
@@ -766,6 +735,6 @@ class Popover_Regular_Btn_Widget extends Widget_Base {
 
 
 // Register widget
-\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Popover_Regular_Btn_Widget() );
+\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Gum_Elementor_Circlebar_Widget() );
 
 ?>

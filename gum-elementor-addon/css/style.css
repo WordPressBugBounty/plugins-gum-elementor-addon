@@ -928,3 +928,6 @@ section.e-transform{
       -ms-flex-order: 1;
           order: 1;
 }
+
+.elementor-widget-image-carousel.elementor-arrows-valign-top .elementor-swiper-button{ top: 0!important; }
+.elementor-widget-image-carousel.elementor-arrows-valign-bottom .elementor-swiper-button{ bottom: 0; top: auto !important; }
