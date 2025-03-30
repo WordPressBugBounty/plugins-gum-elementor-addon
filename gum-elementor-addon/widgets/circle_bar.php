@@ -4,7 +4,7 @@ namespace Elementor;
  * @package     WordPress
  * @subpackage  Gum Elementor Addon
  * @author      support@themegum.com
- * @since       1.0.4
+ * @since       1.3.12
 */
 defined('ABSPATH') or die();
 
@@ -12,8 +12,8 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Box_Shadow;
+use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 
 class Gum_Elementor_Circlebar_Widget extends Widget_Base {
 
@@ -26,6 +26,8 @@ class Gum_Elementor_Circlebar_Widget extends Widget_Base {
     if ( ! $is_type_instance && null === $args ) {
       throw new \Exception( '`$args` argument is required when initializing a full widget instance.' );
     }
+
+    wp_register_script( 'easyPieChart', GUM_ELEMENTOR_URL . 'js/chart.js', [ 'elementor-frontend' ,'jquery'], '1.0.0', true );
 
     add_action( 'elementor/element/before_section_start', [ $this, 'enqueue_script' ] );
 
@@ -95,7 +97,7 @@ class Gum_Elementor_Circlebar_Widget extends Widget_Base {
   }
 
   public function get_keywords() {
-    return [ 'wordpress', 'widget', 'button','popup','modal','spot' ];
+    return [ 'wordpress', 'widget', 'chart'];
   }
 
   /**
@@ -112,549 +114,273 @@ class Gum_Elementor_Circlebar_Widget extends Widget_Base {
   }
 
 
-  public static function get_button_sizes() {
-    return [
-      'xs' => esc_html__( 'Extra Small', 'gum-elementor-addon' ),
-      'sm' => esc_html__( 'Small', 'gum-elementor-addon' ),
-      'md' => esc_html__( 'Medium', 'gum-elementor-addon' ),
-      'lg' => esc_html__( 'Large', 'gum-elementor-addon' ),
-      'xl' => esc_html__( 'Extra Large', 'gum-elementor-addon' ),
-    ];
-  }
-
-
   protected function _register_controls() {
 
     $this->start_controls_section(
-      'button_title',
+      'piechart_title',
       [
-        'label' => esc_html__( 'Button', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Circle Pie Chart', 'gum-elementor-addon' ),
       ]
     );
 
+
     $this->add_control(
-      'button_text',
+      'percent',
       [
-        'label' => esc_html__( 'Text', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::TEXT,
+        'label' => esc_html__( 'Percentage', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'default' => [
+          'size' => 50,
+          'unit' => '%',
+        ],
         'dynamic' => [
-          'active' => true,
+          'active' => false,
+        ],
+      ]
+    );
+
+
+    $this->add_control(
+      'count_number',
+      [
+        'label' => esc_html__( 'Counter number', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::NUMBER,
+        'dynamic' => [
+          'active' => false,
         ],
         'ai' => [
           'active' => false,
         ],
-        'default' => esc_html__( 'Click here', 'gum-elementor-addon' ),
-      ]
-    );
-
-    $this->add_responsive_control(
-      'button_align',
-      [
-        'label' => esc_html__( 'Alignment', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::CHOOSE,
-        'options' => [
-          'left' => [
-            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-left',
-          ],
-          'center' => [
-            'title' => esc_html__( 'Centered', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-center',
-          ],
-          'right' => [
-            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-right',
-          ],
-          'justify' => [
-            'title' => esc_html__( 'Full Width', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-stretch',
-          ],
-        ],
-        'prefix_class' => 'elementor%s-align-',
         'default' => '',
       ]
     );
 
+
     $this->add_control(
-      'size',
+      'count_unit',
       [
-        'label' => esc_html__( 'Size', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SELECT,
-        'default' => 'md',
-        'options' => self::get_button_sizes(),
+        'label' => esc_html__( 'Number prefix', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::TEXT,
+        'dynamic' => [
+          'active' => false,
+        ],
+        'ai' => [
+          'active' => false,
+        ],
+        'default' => '',
+      ]
+    );
+
+
+    $this->end_controls_section();
+
+
+
+    $this->start_controls_section(
+      'section_piechart_style',
+      [
+        'label' => esc_html__( 'Circle Pie Chart', 'gum-elementor-addon' ),
+        'tab' => Controls_Manager::TAB_STYLE,
+      ]
+    );
+
+
+    $this->add_control(
+      'line_color',
+      [
+        'label' => esc_html__( 'Active Color', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::COLOR,
+        'global' => [
+          'default' => Global_Colors::COLOR_PRIMARY,
+        ],
+        'selectors' => [
+          '{{WRAPPER}} .bar-color' => 'color: {{VALUE}}',
+        ],
         'style_transfer' => true,
       ]
     );
 
-    $this->add_control(
-      'selected_icon',
-      [
-        'label' => esc_html__( 'Icon', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::ICONS,
-        'fa4compatibility' => 'icon',
-      ]
-    );
-
-    $this->add_control(
-      'icon_align',
-      [
-        'label' => esc_html__( 'Icon Position', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::CHOOSE,
-        'options' => [
-          'row' => [
-            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-left',
-          ],
-          'row-reverse' => [
-            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-right',
-          ],
-        ],
-        'condition' => [
-          'selected_icon[value]!' => '',
-        ],
-        'default' => 'row',
-        'selectors' => [
-            '{{WRAPPER}} .elementor-button-content-wrapper' => 'flex-direction: {{VALUE}};'
-        ],
-      ]
-    );
 
 
     $this->add_control(
-      'icon_indent',
+      'track_color',
       [
-        'label' => esc_html__( 'Icon Spacing', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SLIDER,
-        'range' => [
-          'px' => [
-            'max' => 100,
-          ],
-        ],
-        'default' =>['value'=>5, 'unit'=>'px'],
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-right' => 'margin-left: {{SIZE}}{{UNIT}};margin-right:0;',
-          '{{WRAPPER}} .elementor-button .elementor-align-icon-left' => 'margin-right: {{SIZE}}{{UNIT}};margin-left: 0;',
-          '{{WRAPPER}} .elementor-button .elementor-button-content-wrapper' => 'gap:{{SIZE}}{{UNIT}};'
-        ],
-        'condition' => ['selected_icon[value]!' => ''],
-      ]
-    );
-
-    $this->end_controls_section();
-
-    $this->start_controls_section(
-      'pop_heading',
-      [
-        'label' => esc_html__( 'Popup Content', 'gum-elementor-addon' ),
-      ]
-    );
-
-
-    $this->add_control(
-      'pop_title',
-      [
-        'label' => esc_html__( 'Title', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::TEXT,
-        'dynamic' => [
-          'active' => true,
-        ],
-        'ai' => [
-          'active' => false,
-        ],
-        'default' => '',
-        'placeholder' => esc_html__( 'Enter your title', 'gum-elementor-addon' ),
-        'label_block' => true,
-      ]
-    );
-
-    $this->add_control(
-      'pop_text',
-      [
-        'label' => esc_html__( 'Text', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::TEXTAREA,
-        'dynamic' => [
-          'active' => true,
-        ],
-        'default' => esc_html__( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'gum-elementor-addon' ),
-        'placeholder' => esc_html__( 'Enter your description', 'gum-elementor-addon' ),
-        'rows' => 10,
-        'show_label' => false,
-      ]
-    );
-
-
-    $this->add_control(
-      'pop_align',
-      [
-        'label' => esc_html__( 'Position', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::CHOOSE,
-        'options' => [
-          'left' => [
-            'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-left',
-          ],
-          'top' => [
-            'title' => esc_html__( 'Top', 'gum-elementor-addon' ),
-            'icon' => 'eicon-v-align-top',
-          ],
-          'right' => [
-            'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
-            'icon' => 'eicon-h-align-right',
-          ],
-          'bottom' => [
-            'title' => esc_html__( 'Bottom', 'gum-elementor-addon' ),
-            'icon' => 'eicon-v-align-bottom',
-          ],
-        ],
-        'default' => 'bottom',
-      ]
-    );
-
-
-    $this->add_control(
-      'pop_width',
-      [
-        'label' => esc_html__( 'Width', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::SLIDER,
-        'range' => [
-          'px' => [
-            'min' => 100,
-            'max' => 1000,
-            'step'=> 1
-          ],
-          'default' => ['value'=> -1,'unit'=>'px']
-        ],
-        'selectors' => [
-          '[data-elementor-device-mode=tablet] {{WRAPPER}} .popover-box' => 'width: {{SIZE}}{{UNIT}};',
-          '[data-elementor-device-mode=desktop] {{WRAPPER}} .popover-box' => 'width: {{SIZE}}{{UNIT}};'
-        ]
-      ]
-    );
-
-
-    $this->end_controls_section();
-
-/*
- * style params
- */
-
-    $this->start_controls_section(
-      'button_styles',
-      [
-        'label' => esc_html__( 'Button', 'gum-elementor-addon' ),
-        'tab'   => Controls_Manager::TAB_STYLE,
-      ]
-    );    
-
-    $this->add_group_control(
-      Group_Control_Typography::get_type(),
-      [
-        'name' => 'typography_title',
-        'selector' => '{{WRAPPER}} .elementor-button',
-      ]
-    );
-
-    $this->start_controls_tabs( 'tabs_button_style' );
-
-    $this->start_controls_tab(
-      'tab_button_normal',
-      [
-        'label' => esc_html__( 'Normal', 'gum-elementor-addon' ),
-      ]
-    );
-
-    $this->add_control(
-      'button_text_color',
-      [
-        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'default' => '',
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button' => 'fill: {{VALUE}};color: {{VALUE}};',
-        ]
-      ]
-    );
-
-    $this->add_control(
-      'button_background_color',
-      [
-        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'default' => '',
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button' => 'background-color: {{VALUE}};',
-        ],
-      ]
-    );
-
-    $this->end_controls_tab();
-    $this->start_controls_tab(
-      'tab_button_hover',
-      [
-        'label' => esc_html__( 'Hover/Clicked', 'gum-elementor-addon' ),
-      ]
-    );
-
-    $this->add_control(
-      'button_hover_color',
-      [
-        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'default' => '',
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button:hover, {{WRAPPER}} .elementor-button:focus' => 'color: {{VALUE}}!important;',
-          '{{WRAPPER}} .elementor-button:hover svg, {{WRAPPER}} .elementor-button:focus svg' => 'fill: {{VALUE}}!important;',
-          '{{WRAPPER}} .pop-it .elementor-button' => 'color: {{VALUE}}!important;',
-        ],
-      ]
-    );
-
-    $this->add_control(
-      'button_background_hover_color',
-      [
-        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'default' => '',
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button:hover, {{WRAPPER}} .elementor-button:focus' => 'background-color: {{VALUE}};',
-          '{{WRAPPER}} .pop-it  .elementor-button' => 'background-color: {{VALUE}};',
-        ],
-      ]
-    );
-
-    $this->add_control(
-      'button_hover_border_color',
-      [
-        'label' => esc_html__( 'Border Color', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Track Color', 'gum-elementor-addon' ),
         'type' => Controls_Manager::COLOR,
-        'condition' => [
-          'btn_border_border!' => '',
-        ],
         'selectors' => [
-          '{{WRAPPER}} .elementor-button:hover, {{WRAPPER}} .elementor-button:focus' => 'border-color: {{VALUE}};',
-          '{{WRAPPER}} .pop-it  .elementor-button' => 'border-color: {{VALUE}};',
+          '{{WRAPPER}} .bar-background' => 'color: {{VALUE}}',
         ],
+        'style_transfer' => true,
       ]
     );
 
-    $this->add_responsive_control(
-      'icon_rotate',
+
+    $this->add_control(
+      'linecap',
       [
-        'label' => esc_html__( 'Icon Rotate', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Line Cap', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SELECT,
+        'default' => '',
+        'options' => array(
+          ''=>esc_html__('Default','gum-elementor-addon'),
+          'round'=>esc_html__('Round','gum-elementor-addon'),
+          'square'=>esc_html__('Square','gum-elementor-addon'),
+        ),
+        'style_transfer' => true,
+      ]
+    );
+
+
+
+    $this->add_control(
+      'canvas_wide',
+      [
+        'label' => esc_html__( 'Canvas size', 'gum-elementor-addon' ),
         'type' => Controls_Manager::SLIDER,
-        'size_units' => [ 'deg' ],
-        'default' => [
-          'size' => 0,
-          'unit' => 'deg',
-        ],
-        'tablet_default' => [
-          'unit' => 'deg',
-        ],
-        'mobile_default' => [
-          'unit' => 'deg',
-        ],
-        'selectors' => [
-          '{{WRAPPER}} .pop-it .elementor-button-icon i, {{WRAPPER}} .pop-it .elementor-button-icon svg' => 'transform: rotate({{SIZE}}{{UNIT}})',
-        ],
-      ]
-    );
-
-    $this->end_controls_tab();
-    $this->end_controls_tabs();
-
-    $this->add_group_control(
-      Group_Control_Border::get_type(),
-      [
-        'name' => 'btn_border',
-        'selector' => '{{WRAPPER}} .elementor-button',
-        'separator' => 'before',
+        'size_units' => [ '%'],
+        'default' => [ 'size'=> 100],
+        'description' => esc_html__( 'Bar wide equal with container width will activate pei chart mode.', 'gum-elementor-addon' ),
       ]
     );
 
     $this->add_control(
-      'btn_border_radius',
+      'canvas_align',
       [
-        'label' => esc_html__( 'Border Radius', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::DIMENSIONS,
-        'size_units' => [ 'px', '%' ],
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-        ]
+        'label' => esc_html__( 'Alignment', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::CHOOSE,
+        'options' => [
+              'left' => [
+                'title' => esc_html__( 'Left', 'gum-elementor-addon' ),
+                'icon' => 'eicon-h-align-left',
+              ],
+              'center' => [
+                'title' => esc_html__( 'Center', 'gum-elementor-addon' ),
+                'icon' => 'eicon-h-align-center',
+              ],
+              'right' => [
+                'title' => esc_html__( 'Right', 'gum-elementor-addon' ),
+                'icon' => 'eicon-h-align-right',
+              ]
+        ],
+        'default' => 'center',
+        'toggle' => false,
+        'prefix_class' => 'canvas-position-',
       ]
     );
 
-    $this->add_responsive_control(
-      'btn_text_padding',
+    $this->add_control(
+      'line_wide',
       [
-        'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::DIMENSIONS,
-        'size_units' => [ 'px', 'em', '%' ],
-        'selectors' => [
-          '{{WRAPPER}} .elementor-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-        ]
+        'label' => esc_html__( 'Bar Wide', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px'],
+        'default' => [ 'size'=> 15],
+        'range' => [
+          'px' => [
+            'min' => 1,
+            'max' => 2000,
+          ],
+        ],
+      'description' => esc_html__( 'Bar wide equal with container width will activate pei chart mode.', 'gum-elementor-addon' ),
       ]
     );
 
-    $this->add_group_control(
-      Group_Control_Box_Shadow::get_type(),
+    $this->add_control(
+      'track_wide',
       [
-        'name' => 'button_box_shadow',
-        'selector' => '{{WRAPPER}} .elementor-button',
+        'label' => esc_html__( 'Track Wide', 'gum-elementor-addon' ),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => [ 'px'],
+        'default' => [ 'size'=> 15],
+        'range' => [
+          'px' => [
+            'min' => 1,
+            'max' => 2000,
+          ],
+        ],
       ]
     );
 
     $this->end_controls_section();
 
+ 
     $this->start_controls_section(
-      'popup_styles',
+      'number_styles',
       [
-        'label' => esc_html__( 'Popup Content', 'gum-elementor-addon' ),
+        'label' => esc_html__( 'Number', 'gum-elementor-addon' ),
         'tab'   => Controls_Manager::TAB_STYLE,
+        'conditions' => [
+          'relation' => 'or',
+          'terms' => [
+            ['name' =>'count_number','operator' => '!==', 'value' => ''],
+            ['name' =>'count_unit','operator' => '!==', 'value' => ''],
+          ]
+        ],
       ]
     );    
 
 
-
-    $this->add_control(
-      'pop_bgcolor',
+    $this->add_group_control(
+      Group_Control_Typography::get_type(),
       [
-        'label' => esc_html__( 'Background', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'background-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-bottom::after' => 'border-bottom-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-top::after' => 'border-top-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-left::after' => 'border-left-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-right::after' => 'border-right-color: {{VALUE}};',
-        ],
-      ]
-    );
-
-
-    $this->add_responsive_control(
-      'pop_padding',
-      [
-        'label' => esc_html__( 'Padding', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::DIMENSIONS,
-        'size_units' => [ 'px', 'em', '%' ],
-        'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-        ],
-      ]
-    );
-
-    $this->add_control(
-      'pop_border_radius',
-      [
-        'label' => esc_html__( 'Border Radius', 'gum-elementor-addon' ),
-        'type' => Controls_Manager::DIMENSIONS,
-        'size_units' => [ 'px', '%' ],
-        'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-        ]
-      ]
-    );
-
-    $this->add_control(
-      'pop_border',
-      [
-        'label' => esc_html__( 'Border Type', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::SELECT,
-        'default' => '',
-        'options' => [
-          '' => esc_html__( 'None', 'gum-elementor-addon' ),
-          'solid' => esc_html__( 'Solid', 'gum-elementor-addon' ),
-          'double' => esc_html__( 'Double', 'gum-elementor-addon' ),
-          'dotted' => esc_html__( 'Dotted', 'gum-elementor-addon' ),
-          'dashed' => esc_html__( 'Dashed', 'gum-elementor-addon' ),
-          'groove' => esc_html__( 'Groove', 'gum-elementor-addon' ),
-        ],
-        'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'border-style: {{VALUE}};',
-        ],
-      ]
-    );
-
-    $this->add_control(
-      'pop_border_width',
-      [
-        'label' => esc_html__( 'Border Width', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::DIMENSIONS,
+        'label' => esc_html__( 'Counter number', 'gum-elementor-addon' ),
+        'name' => 'typography_number_title',
+        'selector' => '{{WRAPPER}} .circle-bar-value',
+        'separator' => 'before',
         'condition' => [
-          'pop_border!' => '',
-        ],
-        'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-          '{{WRAPPER}} .popover-box.pop-bottom:before' => 'border-width: calc( 10px + {{TOP}}{{UNIT}} );',
-          '{{WRAPPER}} .popover-box.pop-top:before' => 'border-width: calc( 10px + {{BOTTOM}}{{UNIT}} );',
-          '{{WRAPPER}} .popover-box.pop-left:before' => 'border-width: calc( 10px + {{RIGHT}}{{UNIT}} );',
-          '{{WRAPPER}} .popover-box.pop-right:before' => 'border-width: calc( 10px + {{LEFT}}{{UNIT}} );',
+          'count_number[value]!' => '',
         ],
       ]
     );
 
+
     $this->add_control(
-      'pop_border_color',
+      'number_title_color',
       [
         'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
         'type' =>  Controls_Manager::COLOR,
+        'default' => '',
         'selectors' => [
-          '{{WRAPPER}} .popover-box' => 'border-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-bottom:before' => 'border-bottom-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-top:before' => 'border-top-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-left:before' => 'border-left-color: {{VALUE}};',
-          '{{WRAPPER}} .popover-box.pop-right:before' => 'border-right-color: {{VALUE}};',
+          '{{WRAPPER}} .circle-bar-value' => 'color: {{VALUE}};',
         ],
         'condition' => [
-          'pop_border!' => '',
+          'count_number[value]!' => '',
         ],
-      ]
-    );
-
-
-    $this->add_group_control(
-      Group_Control_Box_Shadow::get_type(),
-      [
-        'name' => 'pop_box_shadow',
-        'selector' => '{{WRAPPER}} .popover-box',
-      ]
-    );
-
-
-    $this->add_control(
-      'pop_box_separator',
-      [
-        'type' =>  Controls_Manager::HIDDEN,
-        'separator' => 'before',
       ]
     );
 
     $this->add_group_control(
       Group_Control_Typography::get_type(),
       [
-        'label' => esc_html__( 'Title', 'gum-elementor-addon' ),
-        'name' => 'typography_pop_title',
-        'selector' => '{{WRAPPER}} .popover-box h4',
+        'label' => esc_html__( 'Number prefix', 'gum-elementor-addon' ),
+        'name' => 'typography_number_prefix',
+        'selector' => '{{WRAPPER}} .circle-bar-unit',
         'separator' => 'before',
+        'condition' => [
+          'count_unit[value]!' => '',
+        ],
       ]
     );
 
 
     $this->add_control(
-      'pop_title_color',
+      'number_prefix_color',
       [
         'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
         'type' =>  Controls_Manager::COLOR,
         'default' => '',
         'selectors' => [
-          '{{WRAPPER}} .popover-box h4' => 'color: {{VALUE}};',
-        ]
+          '{{WRAPPER}} .circle-bar-unit' => 'color: {{VALUE}};',
+        ],
+        'condition' => [
+          'count_unit[value]!' => '',
+        ],
       ]
     );
 
+
     $this->add_responsive_control(
-      'pop_title_margin',
+      'number_prefix_margin',
       [
         'label' => esc_html__( 'Spacing', 'gum-elementor-addon' ),
         'type' => Controls_Manager::SLIDER,
@@ -667,31 +393,12 @@ class Gum_Elementor_Circlebar_Widget extends Widget_Base {
           'default' => ['value'=> -1,'unit'=>'px']
         ],
         'selectors' => [
-          '{{WRAPPER}} {{WRAPPER}} .popover-box h4' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}} .circle-bar-unit' => 'margin-left: {{SIZE}}{{UNIT}};',
         ],
-        'separator' => 'after',
-      ]
-    );
+        'condition' => [
+          'count_unit[value]!' => '',
+        ],
 
-    $this->add_group_control(
-      Group_Control_Typography::get_type(),
-      [
-        'label' => esc_html__( 'Text', 'gum-elementor-addon' ),
-        'name' => 'typography_pop_text',
-        'selector' => '{{WRAPPER}} .popover-box > div',
-      ]
-    );
-
-
-    $this->add_control(
-      'pop_text_color',
-      [
-        'label' => esc_html__( 'Color', 'gum-elementor-addon' ),
-        'type' =>  Controls_Manager::COLOR,
-        'default' => '',
-        'selectors' => [
-          '{{WRAPPER}} .popover-box > div' => 'color: {{VALUE}};',
-        ]
       ]
     );
 
@@ -706,33 +413,70 @@ class Gum_Elementor_Circlebar_Widget extends Widget_Base {
 
     extract( $settings );
 
-    
-    ?>
-    <div class="circle-bar easyPieChart" data-linecap="round" data-trackwidth="20" data-linewidth="530" data-bgcolor="blue" data-color="#000" data-percent="80"></div>
+    $percent = is_numeric( $percent['size'] ) ? $percent['size'] : '0';
+    if ( 100 < $percent ) { $percent = 100;}
 
+    $line = filter_var($line_wide['size'],  FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $track = filter_var($track_wide['size'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION); 
+    $cap = isset($linecap) &&  in_array( $linecap, array('round','square')) ? $linecap : '';
+    $widgetID = "mod_". substr( $this->get_id_int(), 0, 4 );
+    ?>
+<div class="circle-bar-outer" id="<?php print esc_js(esc_attr($widgetID));?>" style="width:<?php print esc_attr($canvas_wide['size']);?>%">
+<div class="circle-bar-label"><?php 
+if( isset($count_number) && $count_number!=''){ printf('<span class="circle-bar-value">%s</span>', esc_html($count_number) ); }
+if( isset($count_unit) && $count_unit!=''){ printf('<span class="circle-bar-unit">%s</span>', esc_html($count_unit) ); }
+?>
+</div>
+<div  class="circle-bar" data-percent="<?php print(esc_attr($percent));?>"><span class="bar-color"></span><span class="bar-background"></span></div></div>
+<script type="text/javascript">
+jQuery(document).ready(function($){
+    'use strict';
+
+    var <?php print esc_js($widgetID).'clrtimer';?>,<?php print esc_js($widgetID).'_size';?>,<?php print esc_js($widgetID).'_line';?>=15,<?php print esc_js($widgetID).'_track';?> = 15,<?php print esc_js($widgetID).'_barColor';?>= $('#<?php print esc_js($widgetID);?>').find('.bar-color').css('color'),<?php print esc_js($widgetID).'_barBackground';?>= $('#<?php print esc_js($widgetID);?>').find('.bar-background').css('color');
+
+    $(window).on('resize',function(e) { 
+      <?php print esc_js($widgetID).'_size';?> = $('#<?php print esc_js($widgetID);?>').outerWidth();
+      <?php print esc_js($widgetID).'_line';?> = Math.min(<?php print esc_js($widgetID).'_size';?>/2, <?php print(esc_attr($line));?>);
+      <?php print esc_js($widgetID).'_track';?> = Math.min(<?php print esc_js($widgetID).'_size';?>/2, <?php print(esc_attr($track));?>);
+
+      clearTimeout(<?php print esc_js($widgetID).'clrtimer';?>);
+      <?php print esc_js($widgetID).'clrtimer';?> = setTimeout(function(){
+        $('#<?php print esc_js($widgetID);?> .circle-bar').removeData('easyPieChart').find('canvas').remove();
+        $('#<?php print esc_js($widgetID);?> .circle-bar').easyPieChart({
+          barColor: <?php print esc_js($widgetID).'_barColor';?>,
+          trackColor: <?php print esc_js($widgetID).'_barBackground';?>,
+          scaleColor: false,
+          lineCap: '<?php print(esc_attr($cap));?>',
+          lineWidth: <?php print esc_js($widgetID).'_line';?>,
+          trackWidth: <?php print esc_js($widgetID).'_track';?>,
+          animate: 1200,
+          size: <?php print esc_js($widgetID).'_size';?>
+        });
+
+      }, 100);
+
+    });
+
+    $(window).resize();
+
+
+});
+
+</script>
 <?php
 
   }
 
-  protected function sanitize_output($content) {
-
-
-    $allowed_html = array('b'=>array(),'strong'=>array());
-    $allowed_protocols = array();
-
-    return wp_kses_split($content,$allowed_html, $allowed_protocols);
-  }
-
   public function enqueue_script( ) {
-
     wp_enqueue_style( 'gum-elementor-addon',GUM_ELEMENTOR_URL."css/style.css",array());
-    wp_enqueue_script( 'jquery-appear', GUM_ELEMENTOR_URL . 'js/jquery.appear.min.js', array('jquery'), '1.0', false );
-    wp_enqueue_script( 'easyPieChart', GUM_ELEMENTOR_URL . 'js/chart.js', array('jquery'), '1.0', false );
   }
+
+  public function get_script_depends() {
+       return [ 'easyPieChart' ];
+   }
 
 
 }
-
 
 // Register widget
 \Elementor\Plugin::instance()->widgets_manager->register_widget_type( new Gum_Elementor_Circlebar_Widget() );

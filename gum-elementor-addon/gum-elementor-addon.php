@@ -4,7 +4,7 @@ defined('ABSPATH') or die();
  * Plugin Name: Gum Elementor Addon
  * Plugin URI: http://themegum.com/
  * Description: Addon widget for Elementor. Slideshow, pricing table, icon list, recent post, blog term, post term, post share, post meta, post related, post adjacent, blog grid, post slider,navigation menu, image box, popover and to top button
- * Version: 1.3.11
+ * Version: 1.3.12
  * Author: TemeGUM
  * Author URI: http://themegum.com
  * Domain Path: /languages/
@@ -112,6 +112,7 @@ final class Gum_Elementor_Addon{
         require_once( GUM_ELEMENTOR_DIR."widgets/blog_image.php" );
         require_once( GUM_ELEMENTOR_DIR."widgets/totop_btn.php" );
         require_once( GUM_ELEMENTOR_DIR."widgets/carousel_ibox.php" );
+        require_once( GUM_ELEMENTOR_DIR."widgets/circle_bar.php" );
 
         if(!class_exists('Month_Anual_Pricetable_Widget')){
           require_once( GUM_ELEMENTOR_DIR."widgets/pricetable.php" );          
