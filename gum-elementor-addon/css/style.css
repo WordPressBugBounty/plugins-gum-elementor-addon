@@ -476,18 +476,16 @@ ul.gum-menu{
 
 /*  post meta widget */
 .elementor-widget-gum_post_meta .posts-meta,
-article .posts-meta{
- list-style: none; padding: 0; margin: 0;
-}
-
-.elementor-widget-gum_post_meta .posts-meta li,article .posts-meta li{ display: inline-block;}
+article .posts-meta{ list-style: none; padding: 0; margin: 0; display: -webkit-box; display: -ms-flexbox; display: flex; align-items: center; flex-wrap: wrap; }
+.elementor-widget-gum_post_meta .posts-meta li,.elementor-widget-gum_post_meta .posts-meta li a,article .posts-meta li{ display: inline-flex; align-items: center;}
 .elementor-widget-gum_post_meta .posts-meta li.meta-divider,article .posts-meta li.meta-divider{ padding: 0 0.5em; vertical-align: middle;line-height: 1;}
 .elementor-widget-gum_post_meta .posts-meta li.meta-divider span,article .posts-meta li.meta-divider span{ line-height: 1;}
 
 .elementor-widget-gum_posts_grid .posts-meta .author_meta .author-avatar{ text-align:center; }
 .elementor-widget-gum_posts_grid .posts-meta .author_meta .author-avatar img{ margin-left:auto; margin-right: auto; }
-.elementor-widget-gum_posts_grid:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta{ display: inline-flex; align-items: center; line-height:1; }
-.elementor-widget-gum_posts_grid:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta{ display: inline-flex; align-items: center;  }
+.elementor-widget-gum_posts_grid:where(.author_meta_avatar_position-left,.author_meta_avatar_position-right) .posts-meta .author_meta{ line-height:1; }
+.elementor-widget-gum_posts_grid:where(:not(.author_meta_avatar_position-left,.author_meta_avatar_position-right)) .posts-meta .author_meta{ display: inline-block;  }
+.elementor-widget-gum_posts_grid:where(:not(.author_meta_avatar_position-left,.author_meta_avatar_position-right)) .author-avatar{ width: 100%;  }
 .elementor-widget-gum_posts_grid.author_meta_avatar_position-right .posts-meta .author_meta .author-avatar{ order:99;   }
 
 /* post term widget */
